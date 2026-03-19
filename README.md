@@ -7,6 +7,25 @@ O PixGuard atua como uma camada de inteligencia preventiva para analise de trans
 
 O objetivo e gerar um Score de Risco que ajude a frear acoes impulsivas sob ameaca, manipulacao psicologica e/ou engenharia social antes que o usuario realize uma transacao potencialmente fraudulenta.
 
+## Como Clonar o Repositorio
+1. Garanta acesso ao repositorio: `git@github.com:GabrielVioli/pixGuard.git`
+2. Clone via SSH:
+
+```bash
+git clone git@github.com:GabrielVioli/pixGuard.git
+```
+
+3. Acesse a pasta do projeto:
+
+```bash
+cd pixGuard
+```
+
+## Figma
+```text
+https://www.figma.com/make/L9tQlfKvQ4aJGdstzLhNJk/Risk-Assessment-Tool?t=jZA2mAzpfUzkgZcR-20&fullscreen=1
+```
+
 ## Arquitetura Tecnologica
 - Core Backend: PHP 8.2+ com Laravel 11
 - Banco de Dados: MySQL
