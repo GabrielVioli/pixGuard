@@ -1,6 +1,6 @@
-# PixGuard — Motor Heuristico e de IA para Prevencao a Fraudes PIX
+# PixGuard - Motor Heuristico e de IA para Prevencao a Fraudes PIX
 
-![PixGuard](assets/PixGuard.jpg)
+![PixGuard](assets/pixguard.png)
 
 ## Visao Geral
 O PixGuard atua como uma camada de inteligencia preventiva para analise de transacoes PIX. O sistema opera sem acesso direto ao barramento do Banco Central (DICT) e funciona como um orquestrador de dados, cruzando informacoes de provedores publicos e privados com analise contextual impulsionada por IA.
@@ -13,15 +13,6 @@ O objetivo e gerar um Score de Risco que ajude a frear acoes impulsivas sob amea
 - Fila e Cache: Redis
 - Frontend (Apresentacao): TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire)
 - Painel Administrativo: FilamentPHP
-
-## Estrutura de Pastas (Arquitetura Base)
-Para manter o projeto escalável e seguir os princípios do **SOLID**, a lógica do backend está organizada da seguinte forma:
-
-* **`app/Contracts/`**: Contém as **Interfaces**. Define o "contrato" obrigatório para as integrações. Qualquer novo provedor de dados deve implementar uma interface desta pasta.
-* **`app/Services/`**: Camada de comunicação externa e orquestração.
-    * **Services de API**: Classes isoladas que lidam com o HTTP Client do Laravel para buscar dados (ex: `CpfHubService`, `GroqAnalyzerService`).
-    * **Orquestrador**: A classe `PixGuardOrchestrator`, que coordena a chamada de todos os serviços e centraliza os retornos.
-* **`app/Actions/`**: Concentra a **Regra de Negócio** pura. É onde reside a lógica de cálculo (ex: `CalculateRiskScoreAction`), pegando os dados brutos do Orquestrador e transformando-os no Score final.
 
 ## Integracoes Externas (APIs)
 As integracoes sao organizadas em tres pilares funcionais.
@@ -68,7 +59,7 @@ As integracoes sao organizadas em tres pilares funcionais.
 - 30 a 59: Atencao
 - 60 a 100: Alto Risco
 
-### Score de Contexto (IA — Groq)
+### Score de Contexto (IA - Groq)
 - Engenharia Social Ativa (chantagem, sequestro PIX, falso parente): +50 a +80
 - Senso de Urgencia / Oferta Irreal: +30 a +49
 - Conversa Normal/Comercial: 0
