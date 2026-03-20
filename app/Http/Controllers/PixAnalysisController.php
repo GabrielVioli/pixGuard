@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageValidateRequest;
-use App\Services\GroqVisionService;
-use App\Services\GroqAnalysisService;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\JsonResponse;
+use App\Services\GroqApi\GroqAnalysisService;
+use App\Services\GroqApi\GroqVisionService;
 
 class PixAnalysisController extends Controller
 {
