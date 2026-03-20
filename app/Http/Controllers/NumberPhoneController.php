@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NumberPhoneValidateRequest;
+use App\Models\PhoneAnalysis;
 use App\Services\Api\AbstractApi\PhoneExtrator;
 class NumberPhoneController
 {
@@ -17,7 +18,7 @@ class NumberPhoneController
     }
 
 
-    public function getPhone(NumberPhoneValidateRequest $request): void{
+    public function getPhone(NumberPhoneValidateRequest $request){
         $validatedData = $request->validated();
 
         $analysis = $this->phoneExtrator->analysisNumber($validatedData['phone']);
@@ -34,6 +35,9 @@ class NumberPhoneController
             'is_abuse_detected' => $analysis['phone_risk']['is_abuse_detected'],
         ];
 
-        dd($phoneAnalysisData);
+        $record = PhoneAnalysis::create($phoneAnalysisData);
+
+        return redirect()->back()->with('success', 'Análise salva com sucesso. ID: ' . $record->id);
+
     }
 }
