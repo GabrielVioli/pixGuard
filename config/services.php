@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'groq' => [
+        'key' => env('GROQ_API_KEY')
+    ],
+
+    'cpfhub' => [
+        'key' => env('CPFHUB_TOKEN')
+    ],
+
+    'abstract' => [
+        'phone_key' => env('ABSTRACT_PHONE_KEY'),
+        'email_key' => env('ABSTRACT_EMAIL_KEY'),
+    ],
+
 ];
