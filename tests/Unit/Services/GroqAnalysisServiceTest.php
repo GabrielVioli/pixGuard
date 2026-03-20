@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\GroqApi\GroqAnalysisService;
+use App\Services\Api\GroqApi\GroqAnalysisService;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 

@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Http\Requests\ImageValidateRequest;
-use App\Services\GroqApi\GroqAnalysisService;
-use App\Services\GroqApi\GroqVisionService;
+use App\Services\Api\GroqApi\GroqAnalysisService;
+use App\Services\Api\GroqApi\GroqVisionService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;

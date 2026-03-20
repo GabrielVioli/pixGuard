@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\GroqApi;
+namespace App\Services\Api\GroqApi;
 
 use Illuminate\Support\Facades\Http;
 

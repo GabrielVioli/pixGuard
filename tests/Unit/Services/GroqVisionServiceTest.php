@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\GroqApi\GroqVisionService;
+use App\Services\Api\GroqApi\GroqVisionService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
