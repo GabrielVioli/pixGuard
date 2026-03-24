@@ -5,6 +5,7 @@ use App\Http\Controllers\PixAnalysisController;
 use App\Http\Controllers\NumberPhoneController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\CnpjController;
+use App\Http\Controllers\CpfController;
 use Illuminate\Http\Request;
 
 Route::get('/upload', function () {
@@ -25,3 +26,6 @@ Route::post('/email-send', [EmailController::class, 'getEmail'])->name('getEmail
 
 Route::get('/cnpj-form', [CnpjController::class, 'formCnpj'])->name('cnpjForm');
 Route::post('/cnpj-send', [CnpjController::class, 'getCnpj'])->name('getCnpj');
+
+Route::get('/cpf-form', [CpfController::class, 'formCpf'])->name('cpfForm');
+Route::post('/cpf-send', [CpfController::class, "getCpf"])->name("getCpf");

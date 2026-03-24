@@ -48,4 +48,8 @@ return [
         'email_key' => env('ABSTRACT_EMAIL_KEY'),
     ],
 
+    'asaas' => [
+        'key' => env('ASAAS_API_KEY'),
+    ]
+
 ];

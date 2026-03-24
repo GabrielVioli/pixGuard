@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cnpj_analyses', function (Blueprint $table) {
+        Schema::create('cpf_analyses', function (Blueprint $table) {
             $table->id();
-            $table->string('cnpj', 14)->index();
-            $table->string('razao_social');
-            $table->string('situacao', 50);
-            $table->date('data_abertura')->nullable();
-            $table->string('cnae_descricao')->nullable();
-            $table->json('socios')->nullable();
+            $table->string('cpf', 11)->unique()->index();
+            $table->string('nome');
+            $table->string('situacao')->nullable();
+            $table->char('genero', 1)->nullable();
+            $table->date('nascimento')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cnpj_analyses');
+        Schema::dropIfExists('cpf_analyses');
     }
 };
