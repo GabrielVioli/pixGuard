@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Services\Api\AbstractApi;
-use App\Http\Requests\EmailValidadeRequest;
-use http\Env\Response;
+
 use Illuminate\Support\Facades\Http;
 
 class EmailExtrator

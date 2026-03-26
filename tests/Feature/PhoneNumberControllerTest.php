@@ -6,13 +6,13 @@ use App\Services\Api\AbstractApi\PhoneExtrator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class NumberPhoneControllerTest extends TestCase
+class PhoneNumberControllerTest extends TestCase
 {
     use RefreshDatabase;
 
     public function test_form_number_returns_view(): void
     {
-        $response = $this->get('/form-phone');
+        $response = $this->get('/sandbox/form-phone');
 
         $response->assertOk();
         $response->assertViewIs('formNumberPhone');
@@ -40,11 +40,11 @@ class NumberPhoneControllerTest extends TestCase
                 ]);
         });
 
-        $response = $this->from('/form-phone')->post('/phone', [
+        $response = $this->from('/sandbox/form-phone')->post('/sandbox/phone', [
             'phone' => '(11) 99999-9999',
         ]);
 
-        $response->assertRedirect('/form-phone');
+        $response->assertRedirect('/sandbox/form-phone');
         $response->assertSessionHas('success');
 
         $this->assertDatabaseHas('phone_analyses', [

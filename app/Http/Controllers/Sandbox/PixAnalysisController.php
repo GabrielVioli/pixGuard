@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sandbox;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ImageValidateRequest;
 use App\Services\Api\GroqApi\GroqAnalysisService;
 use App\Services\Api\GroqApi\GroqVisionService;
@@ -36,8 +37,8 @@ class PixAnalysisController extends Controller
             'caminho_arquivo' => asset('storage/' . $path),
             'dossie' => [
                 'transcricao' => $linhasDeTexto,
-                'analise_risco' => $resultadoScore
-            ]
+                'analise_risco' => $resultadoScore,
+            ],
         ]);
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Sandbox;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CpfValidateRequest extends FormRequest
+class PhoneNumberValidationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class CpfValidateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cpf' => 'required|string|max:14|regex:/^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/'
+            'phone' => 'required|string|max:20',
         ];
     }
 }

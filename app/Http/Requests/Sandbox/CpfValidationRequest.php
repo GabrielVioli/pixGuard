@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Sandbox;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CnpjValidateRequest extends FormRequest
+class CpfValidationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,8 @@ class CnpjValidateRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
-            'cnpj' => 'required|string|max:18|regex:/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/'
+            'cpf' => 'required|string|max:14|regex:/^\\d{3}\\.?\\d{3}\\.?\\d{3}\\-?\\d{2}$/',
         ];
     }
 }
