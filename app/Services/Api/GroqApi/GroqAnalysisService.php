@@ -21,8 +21,8 @@ class GroqAnalysisService
         $textoParaAnalisar = implode("\n", $textoExtraido);
 
         $systemPrompt = <<<PROMPT
-Você é o Motor de Score de Risco Antifraude do sistema PixGuard.
-Sua função é analisar a transcrição de um chat e atribuir um "Score de Contexto" estritamente baseado nestas regras:
+Você é o Motor de ScoreEngine de Risco Antifraude do sistema PixGuard.
+Sua função é analisar a transcrição de um chat e atribuir um "ScoreEngine de Contexto" estritamente baseado nestas regras:
 
 REGRA 5.1 - SCORE DE CONTEXTO:
 - Conversa Normal/Comercial (Sem risco): 0 pontos.
@@ -53,7 +53,7 @@ PROMPT;
                     ],
                     [
                         'role' => 'user',
-                        'content' => "Analise o seguinte texto e retorne o JSON do Score:\n\n" . $textoParaAnalisar
+                        'content' => "Analise o seguinte texto e retorne o JSON do ScoreEngine:\n\n" . $textoParaAnalisar
                     ]
                 ],
                 'response_format' => ['type' => 'json_object']

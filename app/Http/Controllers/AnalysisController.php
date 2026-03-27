@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\StoreAnalysisAction;
 use App\Http\Requests\GeralValidateRequest;
+use App\Services\ScoreEngine\RouterExtract;
 use App\Services\User\analysisScreenshotService;
 use App\Services\User\PixFormatService;
 
@@ -14,18 +15,23 @@ class AnalysisController extends Controller
     protected analysisScreenshotService $imageService;
     protected StoreAnalysisAction $storeAnalysisAction;
     protected PixFormatService $pixFormatService;
+    protected RouterExtract $scoreEngineService;
+
 
     public function __construct
     (
-                                analysisScreenshotService $imageService,
-                                StoreAnalysisAction       $storeAnalysisAction,
-                                PixFormatService          $pixFormatService)
+        analysisScreenshotService $imageService,
+        StoreAnalysisAction       $storeAnalysisAction,
+        PixFormatService          $pixFormatService,
+        RouterExtract $scoreEngineService
+    )
     {
 
 
         $this->imageService = $imageService;
         $this->storeAnalysisAction = $storeAnalysisAction;
         $this->pixFormatService = $pixFormatService;
+        $this->scoreEngineService = $scoreEngineService;
 
     }
 
@@ -60,9 +66,11 @@ class AnalysisController extends Controller
             'ai_result'    => $result
         ];
 
+        $score = $this->scoreEngineService->RouterExtract($analysisData);
+
         $analysis = $this->storeAnalysisAction->execute($analysisData);
 
-        return dd($analysis->toArray());
+        return dd($score);
 
     }
 }
