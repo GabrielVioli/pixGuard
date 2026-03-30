@@ -10,14 +10,15 @@ return new class extends Migration
     {
         Schema::create('analyses', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->nullable()->comment('Nome do destinatário informado');
-            $table->string("pix_key")->index();
-            $table->string('type')->comment('CPF, CNPJ, Email, etc');
-            $table->decimal("amount", 15, 2)->default(0);
-            $table->string("proof_path")->nullable()->comment('Caminho do screenshot no storage');
-            $table->json("metadata")->nullable();
-            $table->integer("risk_score")->default(0);
-            $table->string("risk_level")->nullable()->comment('Seguro, Atenção, Alto Risco');
+            $table->string('name')->nullable();
+            $table->string('pix_key_hash')->index();
+            $table->string('type');
+            $table->decimal('amount', 15, 2)->default(0);
+            $table->string('proof_path')->nullable();
+            $table->json('metadata')->nullable()->comment('Retorno bruto das APIs');
+            $table->integer('risk_score')->default(0);
+            $table->string('risk_level')->nullable();
+            $table->json('details')->nullable()->comment('Lista de flags/motivos');
 
             $table->timestamps();
             $table->softDeletes();

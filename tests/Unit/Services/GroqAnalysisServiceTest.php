@@ -60,6 +60,6 @@ class GroqAnalysisServiceTest extends TestCase
         $service = new GroqAnalysisService();
         $result = $service->evaluateContextRisk(['texto']);
 
-        $this->assertSame(['error' => 'Falha ao analisar o contexto'], $result);
+        $this->assertSame(['error' => 'Falha na análise'], $result);
     }
 }

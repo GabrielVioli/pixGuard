@@ -21,25 +21,28 @@ class GroqAnalysisService
         $textoParaAnalisar = implode("\n", $textoExtraido);
 
         $systemPrompt = <<<PROMPT
-Você é o Motor de ScoreEngine de Risco Antifraude do sistema PixGuard.
-Sua função é analisar a transcrição de um chat e atribuir um "ScoreEngine de Contexto" estritamente baseado nestas regras:
+Você é o Especialista em Inteligência de Dados do PixGuard.
+Sua missão é analisar transcrições de conversas e extrair entidades para cruzamento de dados.
 
-REGRA 5.1 - SCORE DE CONTEXTO:
-- Conversa Normal/Comercial (Sem risco): 0 pontos.
-- Senso de Urgência / Oferta Irreal (Ex: "corre que vai acabar", "ganhe dinheiro fácil"): 30 a 49 pontos.
-- Engenharia Social Ativa (Ex: chantagem, sequestro PIX, falso parente pedindo dinheiro, ameaça): 50 a 80 pontos.
+DIRETRIZES DE EXTRAÇÃO:
+1. nome_titular_esperado: Identifique o nome da pessoa que o remetente afirma ser ou o favorecido mencionado para o pagamento. Se for "mãe" ou "pai", tente achar o nome real. Se não houver, retorne null.
+2. banco_mencionado: Identifique se algum banco (Nubank, Itaú, Bradesco, etc) foi citado.
+3. categoria_golpe: Classifique em: "Nenhum", "Falso Parente", "Falso Funcionario Banco", "Produto Inexistente", "Urgent/Social Engineering".
 
-REGRA 5.0 - CLASSIFICAÇÃO:
-- 0 a 29: Seguro
-- 30 a 59: Atenção
-- 60 a 100: Alto Risco
+REGRAS DE SCORE (0 a 100):
+- 0-29: Conversa legítima, sem pressa ou pressão.
+- 30-59: Urgência leve, pedidos de dinheiro sem contexto claro.
+- 60-100: Pressão psicológica, ameaça, troca de número ou conta de terceiro (laranja).
 
-Retorne EXCLUSIVAMENTE um formato JSON com a seguinte estrutura:
+Retorne EXCLUSIVAMENTE este JSON:
 {
-    "score_contexto": (int) Pontuação calculada,
-    "classificacao": (string) "Seguro", "Atenção" ou "Alto Risco",
-    "motivo": (string) Explicação técnica e breve da pontuação,
-    "gatilhos_encontrados": (array de strings) Frases ou padrões suspeitos exatos encontrados no texto. Se nenhum, retorne array vazio.
+    "score_contexto": (int),
+    "classificacao": "Seguro" | "Atenção" | "Alto Risco",
+    "nome_titular_esperado": (string|null) "Nome Completo Encontrado",
+    "banco_mencionado": (string|null),
+    "categoria_golpe": (string),
+    "motivo": (string) "Resumo curto",
+    "gatilhos_encontrados": []
 }
 PROMPT;
 
@@ -47,22 +50,13 @@ PROMPT;
             ->post('https://api.groq.com/openai/v1/chat/completions', [
                 'model' => $this->model,
                 'messages' => [
-                    [
-                        'role' => 'system',
-                        'content' => $systemPrompt
-                    ],
-                    [
-                        'role' => 'user',
-                        'content' => "Analise o seguinte texto e retorne o JSON do ScoreEngine:\n\n" . $textoParaAnalisar
-                    ]
+                    ['role' => 'system', 'content' => $systemPrompt],
+                    ['role' => 'user', 'content' => "Analise:\n\n" . $textoParaAnalisar]
                 ],
                 'response_format' => ['type' => 'json_object']
             ]);
 
         $content = $response->json('choices.0.message.content');
-
-        return json_decode($content, true) ?? [
-            'error' => 'Falha ao analisar o contexto'
-        ];
+        return json_decode($content, true) ?? ['error' => 'Falha na análise'];
     }
 }

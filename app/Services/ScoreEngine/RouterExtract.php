@@ -19,14 +19,18 @@ class RouterExtract
     public function RouterExtract(array $data) {
         $format = $this->pixFormatService->verifyFormatPix($data['pix_key']);
 
-        return match ($format) {
+        $apiResponse = match ($format) {
             'EMAIL' => $this->emailExtrator->analysisEmail($data['pix_key']),
             'CPF' => $this->cpfExtrator->extract($data['pix_key']),
             'PHONE' => $this->phoneExtrator->analysisNumber($data['pix_key']),
             'CNPJ' => $this->cnpjExtrator->extract($data['pix_key']),
 
             default =>  throw new \InvalidArgumentException('Tipo de chave desconhecida')
-
         };
+
+        return [
+            'key_type' => $format,
+            'raw_data' => $apiResponse
+        ];
     }
 }

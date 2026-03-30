@@ -22,39 +22,37 @@ class CpfExtrator
                 'cpf'        => $cleanCpf,
                 'nome'       => 'USUARIO TESTE (SEM CUSTO)',
                 'situacao'   => 'REGULAR',
-                'genero'     => 'M',
-                'nascimento' => '01/01/2000',
+                'nascimento' => '2000-01-01',
             ];
         }
 
-        $response = Http::withHeaders([
-            'x-api-key' => $this->apiKey
-        ])
-            ->timeout(3)
-            ->get("https://api.cpfhub.io/cpf/{$cleanCpf}");
+        try {
+            $response = Http::withHeaders(['x-api-key' => $this->apiKey])
+                ->timeout(5)
+                ->get("https://api.cpfhub.io/cpf/{$cleanCpf}");
 
-        if ($response->failed()) {
-            Log::error('Falha no CpfExtrator (CPFHub)', [
-                'status' => $response->status(),
-                'body' => $response->json()
-            ]);
+            if ($response->failed()) {
+                return null;
+            }
+
+            $data = $response->json();
+            $content = $data['data'] ?? $data;
+            $birthDate = $content['birthDate'] ?? null;
+
+            if ($birthDate && str_contains($birthDate, '/')) {
+                $birthDate = Carbon::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
+            }
+
+            return [
+                'cpf'        => $cleanCpf,
+                'nome'       => $content['name'] ?? 'NOME NAO LOCALIZADO',
+                'situacao'   => strtoupper($content['situation'] ?? 'REGULAR'),
+                'nascimento' => $birthDate,
+            ];
+
+        } catch (\Exception $e) {
+            Log::error("Erro fatal no CpfExtrator: " . $e->getMessage());
             return null;
         }
-
-        $data = $response->json();
-        $content = $data['data'] ?? [];
-        $birthDate = $content['birthDate'] ?? null;
-
-        if (is_string($birthDate) && str_contains($birthDate, '/')) {
-            $birthDate = Carbon::createFromFormat('d/m/Y', $birthDate)->format('Y-m-d');
-        }
-
-        return [
-            'cpf'        => $cleanCpf,
-            'nome'       => $content['name'] ?? 'Nome não localizado',
-            'situacao'   => $content['situation'] ?? 'Não informada',
-            'genero'     => $content['gender'] ?? null,
-            'nascimento' => $birthDate,
-        ];
     }
 }

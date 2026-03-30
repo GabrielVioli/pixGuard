@@ -18,7 +18,7 @@ class GroqVisionService
         $fileContent = Storage::disk('public')->get($path);
         $base64Image = base64_encode($fileContent);
 
-        $response = Http::withToken($this->apiKey)
+        $response = Http::withToken($this->apiKey)->timeout(20)
             ->post('https://api.groq.com/openai/v1/chat/completions', [
                 'model' => $this->model,
                 'messages' => [

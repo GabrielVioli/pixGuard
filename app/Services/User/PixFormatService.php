@@ -21,7 +21,7 @@ class PixFormatService
 
         $digits = preg_replace('/[^0-9]/', '', $pixKey);
 
-        if (strlen($digits) == 13 && preg_match('/^55[1-9]{2}9[0-9]{8}$/' , $digits)) {
+        if ((strlen($digits) == 11 || strlen($digits) == 13) && preg_match('/^(55)?[1-9]{2}9[0-9]{8}$/', $digits)) {
             return 'PHONE';
         }
 
