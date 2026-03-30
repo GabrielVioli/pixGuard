@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\CnpjValidationRequest;
 use App\Models\CnpjAnalysis;
 use App\Services\Api\BrasilApi\CnpjExtrator;
+use Illuminate\Support\Facades\Schema;
 
 class CnpjController extends Controller
 {
@@ -35,6 +36,10 @@ class CnpjController extends Controller
             'socios' => data_get($data, 'qsa.*.nome_socio', []),
         ];
 
-        CnpjAnalysis::create($cnpjAnalysisData);
+        if (Schema::hasTable('cnpj_analyses')) {
+            CnpjAnalysis::create($cnpjAnalysisData);
+        }
+
+        return response()->json($data);
     }
 }

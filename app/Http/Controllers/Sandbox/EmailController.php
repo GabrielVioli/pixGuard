@@ -40,6 +40,6 @@ class EmailController extends Controller
 
         $record = EmailAnalysis::create($emailAnalysisData);
 
-        return $record;
+        return response()->json($record);
     }
 }

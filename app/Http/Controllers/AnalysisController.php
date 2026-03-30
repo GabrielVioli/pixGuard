@@ -38,6 +38,32 @@ class AnalysisController extends Controller
     public function geralForm() {
         return view("main");
     }
+
+    public function uploadForm()
+    {
+        return view('upload');
+    }
+
+    public function phoneForm()
+    {
+        return view('formNumberPhone');
+    }
+
+    public function emailForm()
+    {
+        return view('email');
+    }
+
+    public function cnpjForm()
+    {
+        return view('Cnpj');
+    }
+
+    public function cpfForm()
+    {
+        return view('cpf');
+    }
+
     public function verify(GeralValidateRequest $request)
     {
         $input = $request->validated();
@@ -70,7 +96,7 @@ class AnalysisController extends Controller
 
         $analysis = $this->storeAnalysisAction->execute($analysisData);
 
-        return dd($score);
+        dd($score);
 
     }
 }

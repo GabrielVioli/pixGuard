@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnalysisController;
+use App\Http\Controllers\PixAnalysisController as PublicPixAnalysisController;
 use App\Http\Controllers\Sandbox\CnpjController;
 use App\Http\Controllers\Sandbox\CpfController;
 use App\Http\Controllers\Sandbox\EmailController;
@@ -11,6 +12,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('GeralForm', [AnalysisController::class, "geralForm"]);
 Route::post("verify", [AnalysisController::class, "verify"])->name("pix.verify");
 
+Route::get('/form', [PublicPixAnalysisController::class, 'showForm']);
+Route::post('/upload', [PublicPixAnalysisController::class, 'store'])->name('upload.store');
+
+Route::get('/email-form', [EmailController::class, 'emailForm']);
+Route::post('/email-send', [EmailController::class, 'getEmail']);
+
+Route::get('/cnpj-form', [CnpjController::class, 'formCnpj']);
+Route::post('/cnpj-send', [CnpjController::class, 'getCnpj']);
 
 Route::prefix('sandbox')->group(function () {
     Route::get('/upload', [AnalysisController::class, 'uploadForm']);

@@ -14,7 +14,7 @@ class ImageValidateRequestTest extends TestCase
         $rules = (new ImageValidateRequest())->rules();
 
         $validator = Validator::make(
-            ['image' => UploadedFile::fake()->image('comprovante.jpg', 10, 10)],
+            ['image' => UploadedFile::fake()->create('comprovante.jpg', 10, 'image/jpeg')],
             $rules
         );
 
