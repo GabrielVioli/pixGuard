@@ -13,6 +13,10 @@ class AnalysisController extends Controller
 {
 
 
+    public function geralForm() {
+        return view("main");
+    }
+
     public function __construct
     (
         protected analysisScreenshotService $imageService,
