@@ -4,19 +4,18 @@ namespace App\Http\Controllers\Sandbox;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\PhoneNumberValidationRequest;
-use App\Models\PhoneAnalysis;
 use App\Integrations\AbstractApi\PhoneClient;
 
 class PhoneNumberController extends Controller
 {
-    private PhoneClient $phoneExtrator;
+    private PhoneClient $phoneClient;
 
-    public function __construct(PhoneClient $phoneExtrator)
+    public function __construct(PhoneClient $phoneClient)
     {
-        $this->phoneExtrator = $phoneExtrator;
+        $this->phoneClient = $phoneClient;
     }
 
-    public function formNumber()
+    public function formPhone()
     {
         return view('formNumberPhone');
     }
@@ -25,7 +24,7 @@ class PhoneNumberController extends Controller
     {
         $validatedData = $request->validated();
 
-        $analysis = $this->phoneExtrator->analysisNumber($validatedData['phone']);
+        $analysis = $this->phoneClient->analysisNumber($validatedData['phone']);
 
         $phoneAnalysisData = [
             'phone_number' => $analysis['phone_number'],
@@ -39,8 +38,8 @@ class PhoneNumberController extends Controller
             'is_abuse_detected' => $analysis['phone_risk']['is_abuse_detected'],
         ];
 
-        $record = PhoneAnalysis::create($phoneAnalysisData);
-
-        return redirect()->back()->with('success', 'AnÃ¡lise salva com sucesso. ID: ' . $record->id);
+        return redirect()->back()
+            ->with('success', 'AnÃ¡lise concluÃ­da com sucesso.')
+            ->with('analysis', $phoneAnalysisData);
     }
 }

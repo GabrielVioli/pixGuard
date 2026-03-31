@@ -4,16 +4,15 @@ namespace App\Http\Controllers\Sandbox;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\EmailValidationRequest;
-use App\Models\EmailAnalysis;
 use App\Integrations\AbstractApi\EmailClient;
 
 class EmailController extends Controller
 {
-    protected EmailClient $emailExtrator;
+    protected EmailClient $emailClient;
 
-    public function __construct(EmailClient $emailExtrator)
+    public function __construct(EmailClient $emailClient)
     {
-        $this->emailExtrator = $emailExtrator;
+        $this->emailClient = $emailClient;
     }
 
     public function emailForm()
@@ -25,7 +24,7 @@ class EmailController extends Controller
     {
         $validateEmail = $request->validated();
 
-        $analysis = $this->emailExtrator->analysisEmail($validateEmail['email']);
+        $analysis = $this->emailClient->analysisEmail($validateEmail['email']);
 
         $emailAnalysisData = [
             'email_address' => data_get($analysis, 'email_address'),
@@ -38,8 +37,6 @@ class EmailController extends Controller
             'total_breaches' => data_get($analysis, 'email_breaches.total_breaches', 0),
         ];
 
-        $record = EmailAnalysis::create($emailAnalysisData);
-
-        return response()->json($record);
+        return response()->json($emailAnalysisData);
     }
 }

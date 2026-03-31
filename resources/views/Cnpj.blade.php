@@ -6,7 +6,7 @@
     <title>CNPJ</title>
 </head>
 <body>
-<form method="POST" action="{{ route('getCnpj') }}">
+<form method="POST" action="{{ route('sandbox.cnpj.send') }}">
     @csrf
     <label for="cnpj">CNPJ</label>
     <input id="cnpj" name="cnpj" type="text" placeholder="00.000.000/0000-00" required>

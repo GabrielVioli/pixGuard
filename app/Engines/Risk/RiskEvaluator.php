@@ -63,9 +63,6 @@ class RiskEvaluator
     }
 
 
-
-
-
     private function getClassificacao(int $score): string
     {
         if ($score <= 29) return 'Seguro';

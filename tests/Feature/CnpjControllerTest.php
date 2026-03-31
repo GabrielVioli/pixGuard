@@ -27,6 +27,6 @@ class CnpjControllerTest extends TestCase
         $response = $this->post('/cnpj-send', ['cnpj' => '12.345.678/0001-95']);
 
         $response->assertOk();
-        $response->assertExactJson(['cnpj' => '12.345.678/0001-95']);
+        $response->assertJsonFragment(['cnpj' => '12.345.678/0001-95']);
     }
 }

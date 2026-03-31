@@ -9,13 +9,13 @@ use App\Integrations\Groq\GroqVisionClient;
 
 class PixAnalysisController extends Controller
 {
-    private GroqVisionClient $groqVisionService;
-    private GroqChatClient $groqAnalysisService;
+    private GroqVisionClient $visionClient;
+    private GroqChatClient $chatClient;
 
-    public function __construct(GroqVisionClient $groqVisionService, GroqChatClient $groqAnalysisService)
+    public function __construct(GroqVisionClient $visionClient, GroqChatClient $chatClient)
     {
-        $this->groqVisionService = $groqVisionService;
-        $this->groqAnalysisService = $groqAnalysisService;
+        $this->visionClient = $visionClient;
+        $this->chatClient = $chatClient;
     }
 
     public function showForm()
@@ -27,10 +27,10 @@ class PixAnalysisController extends Controller
     {
         $path = $request->file('image')->store('imagens', 'public');
 
-        $resultadoOCR = $this->groqVisionService->analyzeScreenshot($path);
+        $resultadoOCR = $this->visionClient->analyzeScreenshot($path);
         $linhasDeTexto = $resultadoOCR['texto_extraido'] ?? [];
 
-        $resultadoScore = $this->groqAnalysisService->evaluateContextRisk($linhasDeTexto);
+        $resultadoScore = $this->chatClient->evaluateContextRisk($linhasDeTexto);
 
         return response()->json([
             'status' => 'success',

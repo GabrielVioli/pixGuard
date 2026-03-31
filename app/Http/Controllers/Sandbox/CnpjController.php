@@ -4,17 +4,15 @@ namespace App\Http\Controllers\Sandbox;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\CnpjValidationRequest;
-use App\Models\CnpjAnalysis;
 use App\Integrations\BrasilApi\CnpjClient;
-use Illuminate\Support\Facades\Schema;
 
 class CnpjController extends Controller
 {
-    protected CnpjClient $cnpjExtrator;
+    protected CnpjClient $cnpjClient;
 
-    public function __construct(CnpjClient $cnpjExtrator)
+    public function __construct(CnpjClient $cnpjClient)
     {
-        $this->cnpjExtrator = $cnpjExtrator;
+        $this->cnpjClient = $cnpjClient;
     }
 
     public function formCnpj()
@@ -25,7 +23,7 @@ class CnpjController extends Controller
     public function getCnpj(CnpjValidationRequest $request)
     {
         $validateCnpj = $request->input('cnpj');
-        $data = $this->cnpjExtrator->extract($validateCnpj);
+        $data = $this->cnpjClient->extract($validateCnpj);
 
         $cnpjAnalysisData = [
             'cnpj' => $validateCnpj,
@@ -36,10 +34,6 @@ class CnpjController extends Controller
             'socios' => data_get($data, 'qsa.*.nome_socio', []),
         ];
 
-        if (Schema::hasTable('cnpj_analyses')) {
-            CnpjAnalysis::create($cnpjAnalysisData);
-        }
-
-        return response()->json($data);
+        return response()->json($cnpjAnalysisData);
     }
 }

@@ -3,13 +3,10 @@
 namespace Tests\Feature;
 
 use App\Integrations\AbstractApi\PhoneClient;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PhoneNumberControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_form_number_returns_view(): void
     {
         $response = $this->get('/sandbox/form-phone');
@@ -45,13 +42,7 @@ class PhoneNumberControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/sandbox/form-phone');
-        $response->assertSessionHas('success');
-
-        $this->assertDatabaseHas('phone_analyses', [
-            'phone_number' => '+5511999999999',
-            'region' => 'SP',
-            'line_type' => 'mobile',
-            'risk_level' => 'low',
-        ]);
+        $response->assertSessionHas('success', 'AnÃ¡lise concluÃ­da com sucesso.');
+        $response->assertSessionHas('analysis');
     }
 }

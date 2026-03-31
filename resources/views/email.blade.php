@@ -6,7 +6,7 @@
     <title>Email</title>
 </head>
 <body>
-<form method="POST" action="{{ route('getEmail') }}">
+<form method="POST" action="{{ route('sandbox.email.send') }}">
     @csrf
     <label for="phone">email</label>
     <input id="email" name="email" type="email" placeholder="seuemail@example.com" required>

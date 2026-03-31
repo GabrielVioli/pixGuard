@@ -22,12 +22,12 @@ Route::get('/cpf-form', [CpfController::class, 'formCpf'])
 Route::post('/cpf-send', [CpfController::class, 'getCpf'])
     ->name('sandbox.cpf.send');
 
-Route::get('/sandbox/form-phone', [PhoneNumberController::class, 'formPhone'])
+Route::get('/form-phone', [PhoneNumberController::class, 'formPhone'])
     ->name('sandbox.phone.form');
-Route::post('/sandbox/phone', [PhoneNumberController::class, 'getPhone'])
+Route::post('/phone', [PhoneNumberController::class, 'getPhone'])
     ->name('sandbox.phone.send');
 
-Route::get('/sandbox/form', [PixAnalysisController::class, 'showForm'])
+Route::get('/form', [PixAnalysisController::class, 'showForm'])
     ->name('sandbox.pix.form');
-Route::post('/sandbox/upload', [PixAnalysisController::class, 'store'])
+Route::post('/upload', [PixAnalysisController::class, 'store'])
     ->name('sandbox.pix.upload');

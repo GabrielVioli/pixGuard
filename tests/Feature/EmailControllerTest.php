@@ -3,13 +3,10 @@
 namespace Tests\Feature;
 
 use App\Integrations\AbstractApi\EmailClient;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EmailControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_email_form_returns_view(): void
     {
         $response = $this->get('/email-form');
@@ -48,11 +45,6 @@ class EmailControllerTest extends TestCase
             'risk_status' => 'low',
             'domain_age_days' => 123,
             'total_breaches' => 0,
-        ]);
-
-        $this->assertDatabaseHas('email_analyses', [
-            'email_address' => 'usuario.teste@example.com',
-            'deliverability' => 'DELIVERABLE',
         ]);
     }
 }
