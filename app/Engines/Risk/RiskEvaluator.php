@@ -29,7 +29,7 @@ class RiskEvaluator
         if (is_null($rawData)) {
             return [
                 'final_score' => 100,
-                'flags' => ['RNF02: Falha crÃ­tica na consulta do bureau. Risco mÃ¡ximo aplicado por precauÃ§Ã£o.'],
+                'flags' => ['RNF02: Falha crítica na consulta do bureau. Risco máximo aplicado por precaução.'],
                 'metadata' => []
             ];
         }
@@ -63,10 +63,13 @@ class RiskEvaluator
     }
 
 
+
+
+
     private function getClassificacao(int $score): string
     {
         if ($score <= 29) return 'Seguro';
-        if ($score <= 59) return 'AtenÃ§Ã£o';
+        if ($score <= 59) return 'Atenção';
         return 'Alto Risco';
     }
 }

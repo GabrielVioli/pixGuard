@@ -24,12 +24,12 @@ class GroqVisionClient
                 'messages' => [
                     [
                         'role' => 'system',
-                        'content' => 'VocÃª Ã© um extrator de texto (OCR) de alta precisÃ£o. Sua tarefa Ã© transcrever literalmente todo o texto visÃ­vel na imagem, sem resumos, sem explicaÃ§Ãµes e sem opiniÃµes. Responda apenas no formato JSON.'
+                        'content' => 'Você é um extrator de texto (OCR) de alta precisão. Sua tarefa é transcrever literalmente todo o texto visível na imagem, sem resumos, sem explicações e sem opiniões. Responda apenas no formato JSON.'
                     ],
                     [
                         'role' => 'user',
                         'content' => [
-                            ['type' => 'text', 'text' => 'Retorne um JSON com a chave "texto_extraido" contendo a transcriÃ§Ã£o linha por linha da imagem.'],
+                            ['type' => 'text', 'text' => 'Retorne um JSON com a chave "texto_extraido" contendo a transcrição linha por linha da imagem.'],
                             ['type' => 'image_url', 'image_url' => ['url' => "data:image/jpeg;base64,{$base64Image}"]]
                         ]
                     ]

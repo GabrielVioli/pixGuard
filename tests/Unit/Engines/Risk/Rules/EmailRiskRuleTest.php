@@ -18,6 +18,6 @@ class EmailRiskRuleTest extends TestCase
 
         $this->assertSame(100, $result['points']);
         $this->assertCount(2, $result['flags']);
-        $this->assertStringContainsString('temporÃ¡rio', $result['flags'][0]);
+        $this->assertStringContainsString('temporário', $result['flags'][0]);
     }
 }

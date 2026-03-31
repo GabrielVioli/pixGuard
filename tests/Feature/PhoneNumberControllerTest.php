@@ -42,7 +42,7 @@ class PhoneNumberControllerTest extends TestCase
         ]);
 
         $response->assertRedirect('/sandbox/form-phone');
-        $response->assertSessionHas('success', 'AnÃ¡lise concluÃ­da com sucesso.');
+        $response->assertSessionHas('success', 'Análise concluída com sucesso.');
         $response->assertSessionHas('analysis');
     }
 }

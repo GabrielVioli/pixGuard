@@ -60,6 +60,6 @@ class GroqChatClientTest extends TestCase
         $service = new GroqChatClient();
         $result = $service->evaluateContextRisk(['texto']);
 
-        $this->assertSame(['error' => 'Falha na anÃ¡lise'], $result);
+        $this->assertSame(['error' => 'Falha na análise'], $result);
     }
 }

@@ -28,13 +28,13 @@ class AnalysisController extends Controller
         $validated = $request->validated();
 
         if (!$request->hasFile('screenshot')) {
-            return back()->withErrors(['screenshot' => 'O print da conversa Ã© obrigatÃ³rio.']);
+            return back()->withErrors(['screenshot' => 'O print da conversa é obrigatório.']);
         }
 
         $contextAssessment = $this->screenshotAnalyzer->analyze($request->file('screenshot'));
 
         if (!$contextAssessment || isset($contextAssessment['error'])) {
-            return back()->withErrors(['api' => 'Falha na analise de contexto.']);
+            return back()->withErrors(['api' => 'Falha na análise de contexto.']);
         }
 
         $pixKeyType = $this->pixFormatValidator->verifyFormatPix($validated['pix_key']);

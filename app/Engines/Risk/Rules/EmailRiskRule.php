@@ -12,12 +12,12 @@ class EmailRiskRule
 
         if (($qual['is_disposable'] ?? false) === true) {
             $p += 50;
-            $f[] = "ReputaÃ§Ã£o: Uso de provedor de e-mail temporÃ¡rio.";
+            $f[] = "Reputação: Uso de provedor de e-mail temporário.";
         }
 
         if (($dom['domain_age'] ?? 999) < 180) {
             $p += 50;
-            $f[] = "ReputaÃ§Ã£o: DomÃ­nio do e-mail criado hÃ¡ menos de 6 meses.";
+            $f[] = "Reputação: Domínio do e-mail criado há menos de 6 meses.";
         }
 
         return ['points' => $p, 'flags' => $f];

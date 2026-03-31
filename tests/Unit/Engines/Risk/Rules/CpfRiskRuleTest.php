@@ -24,7 +24,7 @@ class CpfRiskRuleTest extends TestCase
         $result = $rule->evaluate(['genero' => 'F'], ['genero_detectado' => 'M']);
 
         $this->assertSame(50, $result['points']);
-        $this->assertStringContainsString('DivergÃªncia', $result['flags'][0]);
+        $this->assertStringContainsString('Divergência', $result['flags'][0]);
     }
 
     public function test_flags_age_outlier_for_commercial_context(): void
@@ -33,10 +33,10 @@ class CpfRiskRuleTest extends TestCase
 
         $result = $rule->evaluate(
             ['nascimento' => '1940-01-01'],
-            ['categoria_golpe' => 'Produto/ServiÃ§o']
+            ['categoria_golpe' => 'Produto/Serviço']
         );
 
         $this->assertSame(25, $result['points']);
-        $this->assertStringContainsString('HeurÃ­stica', $result['flags'][0]);
+        $this->assertStringContainsString('Heurística', $result['flags'][0]);
     }
 }

@@ -20,15 +20,15 @@ class CpfRiskRule
         $sexoAPI = $data['genero'] ?? null;
         if ($sexoIA && $sexoAPI && strtoupper($sexoIA) !== strtoupper($sexoAPI)) {
             $p += 50;
-            $f[] = "DivergÃªncia: Perfil da conversa nÃ£o condiz com o gÃªnero do titular da conta.";
+            $f[] = "Divergência: Perfil da conversa não condiz com o gênero do titular da conta.";
         }
 
         if (!empty($data['nascimento'])) {
             $idade = Carbon::parse($data['nascimento'])->age;
-            $isComercial = ($ctx['categoria_golpe'] ?? '') === 'Produto/ServiÃ§o';
+            $isComercial = ($ctx['categoria_golpe'] ?? '') === 'Produto/Serviço';
             if ($isComercial && ($idade < 19 || $idade > 75)) {
                 $p += 25;
-                $f[] = "HeurÃ­stica: Idade do titular ({$idade} anos) incomum para este tipo de cobranÃ§a.";
+                $f[] = "Heurística: Idade do titular ({$idade} anos) incomum para este tipo de cobrança.";
             }
         }
 

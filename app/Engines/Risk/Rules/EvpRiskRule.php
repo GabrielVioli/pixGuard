@@ -8,7 +8,7 @@ class EvpRiskRule
     {
         return [
             'points' => 25,
-            'flags' => ["SeguranÃ§a: Chave EVP (AleatÃ³ria) dificulta a rastreabilidade P2P."]
+            'flags' => ["Segurança: Chave EVP (Aleatória) dificulta a rastreabilidade P2P."]
         ];
     }
 }

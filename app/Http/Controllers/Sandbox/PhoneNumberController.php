@@ -39,7 +39,7 @@ class PhoneNumberController extends Controller
         ];
 
         return redirect()->back()
-            ->with('success', 'AnÃ¡lise concluÃ­da com sucesso.')
+            ->with('success', 'Análise concluída com sucesso.')
             ->with('analysis', $phoneAnalysisData);
     }
 }
