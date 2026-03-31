@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Sandbox;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\CpfValidationRequest;
 use App\Models\CpfAnalysis;
-use App\Services\Api\CpfHub\CpfExtrator;
+use App\Integrations\CpfHub\CpfClient;
 
 class CpfController extends Controller
 {
-    protected CpfExtrator $cpfExtrator;
+    protected CpfClient $cpfExtrator;
 
-    public function __construct(CpfExtrator $cpfExtrator)
+    public function __construct(CpfClient $cpfExtrator)
     {
         $this->cpfExtrator = $cpfExtrator;
     }

@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 use App\Http\Requests\ImageValidateRequest;
-use App\Services\Api\GroqApi\GroqAnalysisService;
-use App\Services\Api\GroqApi\GroqVisionService;
+use App\Integrations\Groq\GroqChatClient;
+use App\Integrations\Groq\GroqVisionClient;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
@@ -25,7 +25,7 @@ class PixAnalysisControllerTest extends TestCase
 
         $file = UploadedFile::fake()->create('comprovante.jpg', 10, 'image/jpeg');
 
-        $this->mock(GroqVisionService::class, function ($mock) {
+        $this->mock(GroqVisionClient::class, function ($mock) {
             $mock->shouldReceive('analyzeScreenshot')
                 ->once()
                 ->andReturn([
@@ -33,7 +33,7 @@ class PixAnalysisControllerTest extends TestCase
                 ]);
         });
 
-        $this->mock(GroqAnalysisService::class, function ($mock) {
+        $this->mock(GroqChatClient::class, function ($mock) {
             $mock->shouldReceive('evaluateContextRisk')
                 ->once()
                 ->andReturn([

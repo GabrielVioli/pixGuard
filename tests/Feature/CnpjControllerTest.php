@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Services\Api\BrasilApi\CnpjExtrator;
+use App\Integrations\BrasilApi\CnpjClient;
 use Tests\TestCase;
 
 class CnpjControllerTest extends TestCase
@@ -17,7 +17,7 @@ class CnpjControllerTest extends TestCase
 
     public function test_get_cnpj_returns_extrator_payload(): void
     {
-        $this->mock(CnpjExtrator::class, function ($mock) {
+        $this->mock(CnpjClient::class, function ($mock) {
             $mock->shouldReceive('extract')
                 ->once()
                 ->with('12.345.678/0001-95')

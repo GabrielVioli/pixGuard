@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageValidateRequest;
-use App\Services\Api\GroqApi\GroqAnalysisService;
-use App\Services\Api\GroqApi\GroqVisionService;
+use App\Integrations\Groq\GroqChatClient;
+use App\Integrations\Groq\GroqVisionClient;
 
 class PixAnalysisController extends Controller
 {
-    private GroqVisionService $groqVisionService;
-    private GroqAnalysisService $groqAnalysisService;
+    private GroqVisionClient $groqVisionService;
+    private GroqChatClient $groqAnalysisService;
 
-    public function __construct(GroqVisionService $groqVisionService, GroqAnalysisService $groqAnalysisService)
+    public function __construct(GroqVisionClient $groqVisionService, GroqChatClient $groqAnalysisService)
     {
         $this->groqVisionService = $groqVisionService;
         $this->groqAnalysisService = $groqAnalysisService;

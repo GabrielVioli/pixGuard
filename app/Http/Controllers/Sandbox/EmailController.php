@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Sandbox;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\EmailValidationRequest;
 use App\Models\EmailAnalysis;
-use App\Services\Api\AbstractApi\EmailExtrator;
+use App\Integrations\AbstractApi\EmailClient;
 
 class EmailController extends Controller
 {
-    protected EmailExtrator $emailExtrator;
+    protected EmailClient $emailExtrator;
 
-    public function __construct(EmailExtrator $emailExtrator)
+    public function __construct(EmailClient $emailExtrator)
     {
         $this->emailExtrator = $emailExtrator;
     }

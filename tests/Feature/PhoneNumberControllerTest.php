@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Services\Api\AbstractApi\PhoneExtrator;
+use App\Integrations\AbstractApi\PhoneClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,7 +20,7 @@ class PhoneNumberControllerTest extends TestCase
 
     public function test_get_phone_creates_record_and_redirects_back(): void
     {
-        $this->mock(PhoneExtrator::class, function ($mock) {
+        $this->mock(PhoneClient::class, function ($mock) {
             $mock->shouldReceive('analysisNumber')
                 ->once()
                 ->andReturn([

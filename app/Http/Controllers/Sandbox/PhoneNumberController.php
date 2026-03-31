@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Sandbox;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\PhoneNumberValidationRequest;
 use App\Models\PhoneAnalysis;
-use App\Services\Api\AbstractApi\PhoneExtrator;
+use App\Integrations\AbstractApi\PhoneClient;
 
 class PhoneNumberController extends Controller
 {
-    private PhoneExtrator $phoneExtrator;
+    private PhoneClient $phoneExtrator;
 
-    public function __construct(PhoneExtrator $phoneExtrator)
+    public function __construct(PhoneClient $phoneExtrator)
     {
         $this->phoneExtrator = $phoneExtrator;
     }

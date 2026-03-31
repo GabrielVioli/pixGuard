@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Sandbox;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sandbox\CnpjValidationRequest;
 use App\Models\CnpjAnalysis;
-use App\Services\Api\BrasilApi\CnpjExtrator;
+use App\Integrations\BrasilApi\CnpjClient;
 use Illuminate\Support\Facades\Schema;
 
 class CnpjController extends Controller
 {
-    protected CnpjExtrator $cnpjExtrator;
+    protected CnpjClient $cnpjExtrator;
 
-    public function __construct(CnpjExtrator $cnpjExtrator)
+    public function __construct(CnpjClient $cnpjExtrator)
     {
         $this->cnpjExtrator = $cnpjExtrator;
     }

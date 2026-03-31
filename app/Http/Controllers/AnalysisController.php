@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Actions\StoreAnalysisAction;
 use App\Http\Requests\GeralValidateRequest;
-use App\Services\ScoreEngine\RiskAssessmentService;
-use App\Services\ScoreEngine\RouterExtract;
-use App\Services\User\analysisScreenshotService;
-use App\Services\User\PixFormatService;
+use App\Engines\Risk\RiskEvaluator;
+use App\Services\Extraction\DataOrchestrator;
+use App\Services\Vision\ScreenshotAnalyzer;
+use App\Support\PixFormatValidator;
 
 class AnalysisController extends Controller
 {
@@ -19,11 +19,11 @@ class AnalysisController extends Controller
 
     public function __construct
     (
-        protected analysisScreenshotService $imageService,
+        protected ScreenshotAnalyzer $imageService,
         protected StoreAnalysisAction       $storeAnalysisAction,
-        protected PixFormatService          $pixFormatService,
-        protected RouterExtract $scoreEngineService,
-        protected RiskAssessmentService $assessmentService,
+        protected PixFormatValidator          $pixFormatService,
+        protected DataOrchestrator $scoreEngineService,
+        protected RiskEvaluator $assessmentService,
     )
     {}
 
@@ -35,7 +35,7 @@ class AnalysisController extends Controller
             return back()->withErrors(['screenshot' => 'O print da conversa é obrigatório.']);
         }
 
-        $resultIA = $this->imageService->AnalysisScreenshot($request->file('screenshot'));
+        $resultIA = $this->imageService->analyze($request->file('screenshot'));
 
         if (!$resultIA || isset($resultIA['error'])) {
             return back()->withErrors(['api' => 'Falha na análise de contexto.']);
@@ -54,7 +54,7 @@ class AnalysisController extends Controller
         $type = $this->pixFormatService->verifyFormatPix($input['pix_key']);
 
         $riskResult = $this->assessmentService->analyze(
-            $this->scoreEngineService->RouterExtract($analysisData),
+            $this->scoreEngineService->orchestrate($analysisData),
             $resultIA
         );
 

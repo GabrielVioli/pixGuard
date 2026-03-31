@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Services\Api\AbstractApi\EmailExtrator;
+use App\Integrations\AbstractApi\EmailClient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,7 +20,7 @@ class EmailControllerTest extends TestCase
 
     public function test_get_email_creates_record_and_returns_payload(): void
     {
-        $this->mock(EmailExtrator::class, function ($mock) {
+        $this->mock(EmailClient::class, function ($mock) {
             $mock->shouldReceive('analysisEmail')
                 ->once()
                 ->andReturn([
