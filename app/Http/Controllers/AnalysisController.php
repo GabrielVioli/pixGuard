@@ -3,73 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Actions\StoreAnalysisAction;
-use App\Http\Requests\GeralValidateRequest;
 use App\Engines\Risk\RiskEvaluator;
+use App\Http\Requests\GeralValidateRequest;
 use App\Services\Extraction\DataOrchestrator;
 use App\Services\Vision\ScreenshotAnalyzer;
 use App\Support\PixFormatValidator;
 
 class AnalysisController extends Controller
 {
-
-
     public function geralForm() {
         return view("main");
     }
 
-    public function __construct
-    (
-        protected ScreenshotAnalyzer $imageService,
-        protected StoreAnalysisAction       $storeAnalysisAction,
-        protected PixFormatValidator          $pixFormatService,
-        protected DataOrchestrator $scoreEngineService,
-        protected RiskEvaluator $assessmentService,
-    )
-    {}
+    public function __construct(
+        protected ScreenshotAnalyzer $screenshotAnalyzer,
+        protected StoreAnalysisAction $storeAnalysisAction,
+        protected PixFormatValidator $pixFormatValidator,
+        protected DataOrchestrator $dataOrchestrator,
+        protected RiskEvaluator $riskEvaluator,
+    ) {}
 
     public function verify(GeralValidateRequest $request)
     {
-        $input = $request->validated();
+        $validated = $request->validated();
 
         if (!$request->hasFile('screenshot')) {
-            return back()->withErrors(['screenshot' => 'O print da conversa é obrigatório.']);
+            return back()->withErrors(['screenshot' => 'O print da conversa Ã© obrigatÃ³rio.']);
         }
 
-        $resultIA = $this->imageService->analyze($request->file('screenshot'));
+        $contextAssessment = $this->screenshotAnalyzer->analyze($request->file('screenshot'));
 
-        if (!$resultIA || isset($resultIA['error'])) {
-            return back()->withErrors(['api' => 'Falha na análise de contexto.']);
+        if (!$contextAssessment || isset($contextAssessment['error'])) {
+            return back()->withErrors(['api' => 'Falha na analise de contexto.']);
         }
 
-        $type = $this->pixFormatService->verifyFormatPix($input['pix_key']);
+        $pixKeyType = $this->pixFormatValidator->verifyFormatPix($validated['pix_key']);
 
-        $analysisData = [
-            'name'       => $input['name'],
-            'pix_key'    => $input['pix_key'],
-            'amount'     => $input['amount'],
-            'key_type'   => $type,
+        $analysisPayload = [
+            'name'       => $validated['name'],
+            'pix_key'    => $validated['pix_key'],
+            'amount'     => $validated['amount'],
+            'key_type'   => $pixKeyType,
             'proof_path' => $request->file('screenshot')->store('screenshots', 'public'),
         ];
 
-        $type = $this->pixFormatService->verifyFormatPix($input['pix_key']);
-
-        $riskResult = $this->assessmentService->analyze(
-            $this->scoreEngineService->orchestrate($analysisData),
-            $resultIA
+        $riskAssessment = $this->riskEvaluator->analyze(
+            $this->dataOrchestrator->orchestrate($analysisPayload),
+            $contextAssessment
         );
 
         $this->storeAnalysisAction->execute([
-            'pix_key'    => $input['pix_key'],
-            'type'       => $type,
-            'name'       => $input['name'],
-            'amount'     => $input['amount'],
-            'score'      => $riskResult['final_score'],
-            'risk_level' => $riskResult['nivel'],
-            'details'    => $riskResult['flags'],
-            'metadata'   => $riskResult['metadata'],
-            'proof_path' => $analysisData['proof_path']
+            'pix_key'    => $validated['pix_key'],
+            'type'       => $pixKeyType,
+            'name'       => $validated['name'],
+            'amount'     => $validated['amount'],
+            'score'      => $riskAssessment['final_score'],
+            'risk_level' => $riskAssessment['nivel'],
+            'details'    => $riskAssessment['flags'],
+            'metadata'   => $riskAssessment['metadata'],
+            'proof_path' => $analysisPayload['proof_path']
         ]);
 
-        return view('dashboard.resultado', compact('riskResult'));
+        return view('dashboard.resultado', ['riskResult' => $riskAssessment]);
     }
 }
