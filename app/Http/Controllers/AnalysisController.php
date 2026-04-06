@@ -52,15 +52,18 @@ class AnalysisController extends Controller
             $contextAssessment
         );
 
+        $veredict = $riskAssessment['veredict'] ?? [];
+        $evidences = $riskAssessment['evidences'] ?? [];
+
         $this->storeAnalysisAction->execute([
             'pix_key'    => $validated['pix_key'],
             'type'       => $pixKeyType,
             'name'       => $validated['name'],
             'amount'     => $validated['amount'],
-            'score'      => $riskAssessment['final_score'],
-            'risk_level' => $riskAssessment['nivel'],
-            'details'    => $riskAssessment['flags'],
-            'metadata'   => $riskAssessment['metadata'],
+            'score'      => data_get($veredict, 'final_score', 0),
+            'risk_level' => data_get($veredict, 'risk_level', 'Atenção'),
+            'details'    => data_get($evidences, 'flags', []),
+            'metadata'   => $riskAssessment['metadata'] ?? [],
             'proof_path' => $analysisPayload['proof_path']
         ]);
 

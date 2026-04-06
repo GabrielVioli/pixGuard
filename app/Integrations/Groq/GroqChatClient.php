@@ -16,10 +16,9 @@ class GroqChatClient
     }
 
 
-    public function evaluateContextRisk(array $textoExtraido): array
+    public function evaluateContextRisk(string|array $textoExtraido): array
     {
-        $textoParaAnalisar = implode("\n", $textoExtraido);
-
+        $textoParaAnalisar = is_array($textoExtraido) ? implode("\n", $textoExtraido) : $textoExtraido;
         $systemPrompt = <<<PROMPT
 Você é o Especialista em Inteligência de Dados do PixGuard.
 Sua missão é analisar transcrições de conversas e extrair entidades para cruzamento de dados.
