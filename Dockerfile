@@ -25,4 +25,4 @@ COPY ./docker/nginx.conf /etc/nginx/http.d/default.conf
 
 EXPOSE 80
 
-CMD nginx && php-fpm
+CMD php artisan migrate --force && nginx && php-fpm
