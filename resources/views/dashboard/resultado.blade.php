@@ -94,7 +94,7 @@
     @endif
 
     <div class="mt-10 flex justify-between items-center">
-        <a href="/GeralForm" class="text-blue-600 hover:underline text-sm font-medium">← Nova Consulta</a>
+        <a href="/" class="text-blue-600 hover:underline text-sm font-medium">← Nova Consulta</a>
         <span class="text-[10px] text-gray-400 font-mono italic">PixGuard v1.0.4</span>
     </div>
 </div>
