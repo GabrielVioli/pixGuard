@@ -20,10 +20,9 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 RUN touch database/database.sqlite && \
-    chown -R www-data:www-data storage bootstrap/cache database \
+    chown -R www-data:www-data storage bootstrap/cache database
 
 COPY ./docker/nginx.conf /etc/nginx/http.d/default.conf
-
 EXPOSE 80
 
 CMD php artisan migrate --force && nginx && php-fpm
