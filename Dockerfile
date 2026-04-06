@@ -19,7 +19,8 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader
 
-RUN chown -R www-data:www-data storage bootstrap/cache
+RUN touch database/database.sqlite && \
+    chown -R www-data:www-data storage bootstrap/cache database \
 
 COPY ./docker/nginx.conf /etc/nginx/http.d/default.conf
 
