@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Integrations\AbstractApi;
-
 use Illuminate\Support\Facades\Http;
 
 class EmailClient
@@ -14,11 +13,14 @@ class EmailClient
 
     public function analysisEmail(string $email)
     {
-        $response = Http::get("https://emailreputation.abstractapi.com/v1/?api_key={$this->apiKey}&email={$email}");
+        $response = Http::timeout(5)->get("https://emailreputation.abstractapi.com/v1/", [
+            'api_key' => $this->apiKey,
+            'email'   => $email
+        ]);
 
         if($response->failed()) {
             return [
-                "error" => true,
+                "error"  => true,
                 "status" => $response->status()
             ];
         }
