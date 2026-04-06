@@ -31,9 +31,9 @@ class RiskEvaluatorTest extends TestCase
             ],
         ], []);
 
-        $this->assertSame(60, $result['final_score']);
-        $this->assertSame('Alto Risco', $result['nivel']);
-        $this->assertStringContainsString('VoIP', $result['flags'][0]);
+        $this->assertSame(36, $result['veredict']['final_score']);
+        $this->assertSame('Atenção', $result['veredict']['risk_level']);
+        $this->assertStringContainsString('VoIP', $result['evidences']['flags'][0]);
     }
 
     public function test_analyze_allows_clean_phone(): void
@@ -58,9 +58,9 @@ class RiskEvaluatorTest extends TestCase
             ],
         ], []);
 
-        $this->assertSame(0, $result['final_score']);
-        $this->assertSame('Seguro', $result['nivel']);
-        $this->assertSame([], $result['flags']);
+        $this->assertSame(0, $result['veredict']['final_score']);
+        $this->assertSame('Seguro', $result['veredict']['risk_level']);
+        $this->assertSame([], $result['evidences']['flags']);
     }
 
     public function test_analyze_returns_hard_block_for_international_phone(): void
@@ -83,9 +83,9 @@ class RiskEvaluatorTest extends TestCase
             ],
         ], []);
 
-        $this->assertSame(100, $result['final_score']);
-        $this->assertSame('Alto Risco', $result['nivel']);
-        $this->assertStringContainsString('Internacional', $result['flags'][0]);
+        $this->assertSame(100, $result['veredict']['final_score']);
+        $this->assertSame('Alto Risco', $result['veredict']['risk_level']);
+        $this->assertStringContainsString('Internacional', $result['evidences']['flags'][0]);
     }
 
     public function test_analyze_scores_email_with_ai_context(): void
@@ -109,13 +109,19 @@ class RiskEvaluatorTest extends TestCase
             'motivo' => 'Urgencia suspeita',
         ]);
 
-        $this->assertSame(100, $result['final_score']);
-        $this->assertSame('Alto Risco', $result['nivel']);
-        $this->assertStringContainsString('Contexto (IA)', $result['flags'][0]);
-        $this->assertGreaterThanOrEqual(3, count($result['flags']));
+        $this->assertSame(100, $result['veredict']['final_score']);
+        $this->assertSame('Alto Risco', $result['veredict']['risk_level']);
+        $this->assertTrue((bool) array_filter(
+            $result['evidences']['flags'],
+            fn ($flag) => str_contains($flag, 'IA:')
+        ));
+        $this->assertTrue((bool) array_filter(
+            $result['evidences']['flags'],
+            fn ($flag) => str_contains($flag, 'CRÍTICO')
+        ));
     }
 
-    public function test_analyze_returns_rnf02_when_bureau_fails(): void
+    public function test_analyze_returns_warning_when_bureau_fails(): void
     {
         $service = new RiskEvaluator(
             new EvpRiskRule(),
@@ -130,8 +136,9 @@ class RiskEvaluatorTest extends TestCase
             'raw_data' => null,
         ], []);
 
-        $this->assertSame(100, $result['final_score']);
-        $this->assertStringStartsWith('RNF02:', $result['flags'][0]);
+        $this->assertSame(0, $result['veredict']['final_score']);
+        $this->assertSame('Seguro', $result['veredict']['risk_level']);
+        $this->assertStringContainsString('Consulta de dados oficiais', $result['evidences']['flags'][0]);
         $this->assertSame([], $result['metadata']);
     }
 }

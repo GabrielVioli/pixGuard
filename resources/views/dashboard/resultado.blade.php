@@ -4,7 +4,12 @@
     <h1 class="text-xl font-bold mb-4 text-gray-800">Relatório PixGuard</h1>
 
     @php
-        $veredict = $riskResult['veredict'];
+        $veredict = $riskResult['veredict'] ?? [
+            'final_score' => 0,
+            'risk_level' => 'AtenÃ§Ã£o',
+            'risk_color' => 'amber',
+            'recommendation' => 'N/A',
+        ];
         $audit = $riskResult['audit'] ?? [];
         $flags = collect($riskResult['evidences']['flags'] ?? []);
         $metadata = $riskResult['metadata'] ?? [];
@@ -18,7 +23,7 @@
         $city = $getInfo('INFO_CITY: ');
         $cnae = $getInfo('INFO_CNAE: ');
         $socios = $getInfo('INFO_PARTNERS: ');
-        $aiReasoning = $riskResult['behavioral']['ai_reasoning'] ?? null;
+        $aiReasoning = data_get($riskResult, 'behavioral.ai_reasoning', 'N/A');
     @endphp
 
     <div class="p-6 rounded-xl border-2 shadow-sm
@@ -68,7 +73,7 @@
     <div class="mt-8">
         <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 text-center md:text-left">Análise Técnica</h3>
         <ul class="space-y-2">
-            @forelse($riskResult['evidences']['flags'] ?? [] as $flag)
+            @forelse($flags as $flag)
                 @if(!str_contains($flag, 'INFO_'))
                     <li class="flex items-start gap-2 text-sm {{ str_contains(strtoupper($flag), 'CRÍTICO') ? 'text-red-700 font-bold' : 'text-gray-700' }}">
                         <span class="mt-1">•</span>

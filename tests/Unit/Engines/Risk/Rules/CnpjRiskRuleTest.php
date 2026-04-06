@@ -11,7 +11,7 @@ class CnpjRiskRuleTest extends TestCase
     {
         $rule = new CnpjRiskRule();
 
-        $result = $rule->evaluate(['situacao' => 'BAIXADA'], []);
+        $result = $rule->evaluate(['descricao_situacao_cadastral' => 'BAIXADA'], []);
 
         $this->assertSame(80, $result['points']);
         $this->assertStringContainsString('CNPJ inativo', $result['flags'][0]);
@@ -21,9 +21,15 @@ class CnpjRiskRuleTest extends TestCase
     {
         $rule = new CnpjRiskRule();
 
-        $result = $rule->evaluate(['situacao' => 'ATIVA'], []);
+        $result = $rule->evaluate([
+            'descricao_situacao_cadastral' => 'ATIVA',
+            'natureza_juridica' => 'Sociedade Limitada',
+            'capital_social' => 10000,
+            'ddd_telefone_1' => '11',
+            'email' => 'contato@empresa.com',
+        ], []);
 
         $this->assertSame(0, $result['points']);
-        $this->assertSame([], $result['flags']);
+        $this->assertStringContainsString('INFO_CNAE', $result['flags'][0]);
     }
 }

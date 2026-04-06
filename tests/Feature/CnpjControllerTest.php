@@ -9,7 +9,7 @@ class CnpjControllerTest extends TestCase
 {
     public function test_form_cnpj_returns_view(): void
     {
-        $response = $this->get('/cnpj-form');
+        $response = $this->get('/sandbox/cnpj-form');
 
         $response->assertOk();
         $response->assertViewIs('Cnpj');
@@ -24,7 +24,7 @@ class CnpjControllerTest extends TestCase
                 ->andReturn(['cnpj' => '12.345.678/0001-95']);
         });
 
-        $response = $this->post('/cnpj-send', ['cnpj' => '12.345.678/0001-95']);
+        $response = $this->post('/sandbox/cnpj-send', ['cnpj' => '12.345.678/0001-95']);
 
         $response->assertOk();
         $response->assertJsonFragment(['cnpj' => '12.345.678/0001-95']);

@@ -17,7 +17,12 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->validateCsrfTokens(except: [
+            '/sandbox/cnpj-send',
+            '/sandbox/email-send',
+            '/sandbox/upload',
+            '/sandbox/phone',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

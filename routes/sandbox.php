@@ -30,4 +30,4 @@ Route::post('/phone', [PhoneNumberController::class, 'getPhone'])
 Route::get('/form', [PixAnalysisController::class, 'showForm'])
     ->name('sandbox.pix.form');
 Route::post('/upload', [PixAnalysisController::class, 'store'])
-    ->name('sandbox.pix.upload');
+    ->name('store');

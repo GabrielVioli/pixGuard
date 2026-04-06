@@ -13,7 +13,7 @@ class PixAnalysisControllerTest extends TestCase
 {
     public function test_show_form_returns_upload_view(): void
     {
-        $response = $this->get('/form');
+        $response = $this->get('/sandbox/form');
 
         $response->assertOk();
         $response->assertViewIs('upload');
@@ -45,7 +45,7 @@ class PixAnalysisControllerTest extends TestCase
         });
 
         $request = ImageValidateRequest::create(
-            '/upload',
+            '/sandbox/upload',
             'POST',
             [],
             [],

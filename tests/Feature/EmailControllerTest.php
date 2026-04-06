@@ -9,7 +9,7 @@ class EmailControllerTest extends TestCase
 {
     public function test_email_form_returns_view(): void
     {
-        $response = $this->get('/email-form');
+        $response = $this->get('/sandbox/email-form');
 
         $response->assertOk();
         $response->assertViewIs('email');
@@ -34,7 +34,7 @@ class EmailControllerTest extends TestCase
                 ]);
         });
 
-        $response = $this->post('/email-send', [
+        $response = $this->post('/sandbox/email-send', [
             'email' => 'usuario.teste@example.com',
         ]);
 
