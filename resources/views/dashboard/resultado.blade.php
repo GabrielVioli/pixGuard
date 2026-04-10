@@ -1,7 +1,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <div class="p-8 max-w-lg mx-auto bg-gray-50 min-h-screen">
-    <h1 class="text-xl font-bold mb-4 text-gray-800">Relatório PixGuard</h1>
+    <h1 class="text-xl font-bold mb-4 text-gray-800">Relatório</h1>
 
     @php
         $veredict = $riskResult['veredict'] ?? [

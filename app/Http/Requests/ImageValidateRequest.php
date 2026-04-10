@@ -14,7 +14,7 @@ class ImageValidateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['required', 'file', 'mimes:jpeg,jpg,png'],
+            'image' => ['required', 'file', 'mimes:jpeg,jpg,png', 'max:5120'],
         ];
     }
 }
